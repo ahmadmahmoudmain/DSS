@@ -8,26 +8,27 @@ public class Main {
 
         Scanner input = new Scanner(System.in);
 
-        System.out.println("Welcome to The Loan Decision app!");
-        System.out.println("Enter the desired loan amount: ");
+        System.out.print("Enter the desired loan amount: ");
         loanAmount = input.nextDouble();
 
-        System.out.println("Enter your credit score: ");
+        System.out.print("Enter your credit score: ");
         creditScore = input.nextInt();
 
-        System.out.println("Do you have any existing loan? ");
+        System.out.print("Do you have any existing loan? ");
         existingDebt = input.nextBoolean();
 
-        System.out.println("Enter the loan type (1 - Mortgage | 2 - Personal): ");
+        System.out.print("Enter the loan type (1 - Mortgage | 2 - Personal): ");
         loanType = input.nextInt();
 
-        System.out.println("Are you employed? ");
+        System.out.print("Are you employed? ");
         employment = input.nextBoolean();
 
-        System.out.println("Enter your monthly income: ");
+        System.out.print("Enter your monthly income: ");
         income = input.nextInt();
 
-        System.out.println("Enter the loan repayment period in years: ");
+        System.out.print("Enter the loan repayment period in years: ");
         repaymentPeriod = input.nextInt();
+
+        input.close();
     }
 }
