@@ -34,18 +34,28 @@ public class Main {
     }
 
     public static int scoreVali(int score){
-        return something;
+        if(score <= 1000) {
+            return score;
+        }
+        else{
+            return 0;
+        }
     }
 
     public static boolean existingVali(int input){
-        return something;
+        return input == 1;
     }
 
     public static String typeVali(int input){
-        return something;
+        if(input == 1){
+            return "Mortgage";
+        }
+        else{
+            return "Personal";
+        }
     }
 
     public static boolean empVali(int input){
-        return something;
+        return input == 1;
     }
 }
