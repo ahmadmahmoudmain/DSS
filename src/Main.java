@@ -2,8 +2,8 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        double income;
-        int creditScore, repaymentPeriod, loanAmount;
+        double income, totalLoanPayment;
+        int creditScore, repaymentPeriod, loanAmount, interestRate;
         boolean existingDebt, employment;
         String loanType;
 
@@ -31,31 +31,57 @@ public class Main {
         repaymentPeriod = input.nextInt();
 
         input.close();
+
+        if (creditScore <= 600) {
+            interestRate = 10;
+        }
+        else if (creditScore <= 700) {
+            interestRate = 7;
+        }
+        else {
+            interestRate = 4;
+        }
+
+        if (loanType.equals("Mortgage")) {
+            interestRate -= 1;
+        }
+        else {
+            interestRate += 1;
+        }
+
+        totalLoanPayment = (1 + loanAmount / (repaymentPeriod * 12)) * interestRate;
+
+        if (income < 2000 || creditScore < 600 || employment == false) {
+            System.out.print("\nRejected");
+        }
+        else {
+            System.out.println("Approved \n Your Total payment will be: " + totalLoanPayment);
+        }
     }
 
-    public static int scoreVali(int score){
-        if(score <= 1000) {
+    public static int scoreVali (int score) {
+        if (score <= 1000) {
             return score;
         }
-        else{
+        else {
             return 0;
         }
     }
 
-    public static boolean existingVali(int input){
+    public static boolean existingVali (int input) {
         return input == 1;
     }
 
-    public static String typeVali(int input){
-        if(input == 1){
+    public static String typeVali (int input) {
+        if (input == 1) {
             return "Mortgage";
         }
-        else{
+        else {
             return "Personal";
         }
     }
 
-    public static boolean empVali(int input){
+    public static boolean empVali (int input) {
         return input == 1;
     }
 }
