@@ -1,6 +1,24 @@
 import java.util.Scanner;
 
 public class Main {
+
+    public static double calculateTotalLoanPayments(double loanAmount, double interestRate, int repaymentPeriod) {
+        double monthlyInterestRate, totalNumberOfPayments, monthlyPayment, totalLoanPayment;
+        // Convert annual interest rate from percentage to decimal and calculate monthly
+        // rate
+        monthlyInterestRate = interestRate / 12 / 100; // Convert percentage to decimal and to monthly
+        totalNumberOfPayments = repaymentPeriod * 12;
+
+        // Monthly payment calculation using the loan payment formula
+        monthlyPayment = (loanAmount * monthlyInterestRate
+                * Math.pow((1 + monthlyInterestRate), totalNumberOfPayments))
+                / (Math.pow((1 + monthlyInterestRate), totalNumberOfPayments) - 1);
+
+        // Calculate total loan payment
+        totalLoanPayment = monthlyPayment * totalNumberOfPayments;
+        return totalLoanPayment;
+    }
+
     public static void main(String[] args) {
         double income, totalLoanPayment;
         int creditScore, repaymentPeriod, loanAmount, interestRate;
@@ -34,54 +52,48 @@ public class Main {
 
         if (creditScore <= 600) {
             interestRate = 10;
-        }
-        else if (creditScore <= 700) {
+        } else if (creditScore <= 700) {
             interestRate = 7;
-        }
-        else {
+        } else {
             interestRate = 4;
         }
 
         if (loanType.equals("Mortgage")) {
             interestRate -= 1;
-        }
-        else {
+        } else {
             interestRate += 1;
         }
 
-        totalLoanPayment = (1 + loanAmount / (repaymentPeriod * 12)) * interestRate;
+        totalLoanPayment = calculateTotalLoanPayments(loanAmount, interestRate, repaymentPeriod);
 
         if (income < 2000 || creditScore < 600 || employment == false) {
             System.out.print("\nRejected");
-        }
-        else {
+        } else {
             System.out.println("Approved \n Your Total payment will be: " + totalLoanPayment);
         }
     }
 
-    public static int scoreVali (int score) {
+    public static int scoreVali(int score) {
         if (score <= 1000) {
             return score;
-        }
-        else {
+        } else {
             return 0;
         }
     }
 
-    public static boolean existingVali (int input) {
+    public static boolean existingVali(int input) {
         return input == 1;
     }
 
-    public static String typeVali (int input) {
+    public static String typeVali(int input) {
         if (input == 1) {
             return "Mortgage";
-        }
-        else {
+        } else {
             return "Personal";
         }
     }
 
-    public static boolean empVali (int input) {
+    public static boolean empVali(int input) {
         return input == 1;
     }
 }
