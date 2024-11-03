@@ -1,24 +1,6 @@
 import java.util.Scanner;
 
 public class Main {
-
-    public static double calculateTotalLoanPayments(double loanAmount, double interestRate, int repaymentPeriod) {
-        double monthlyInterestRate, totalNumberOfPayments, monthlyPayment, totalLoanPayment;
-        // Convert annual interest rate from percentage to decimal and calculate monthly
-        // rate
-        monthlyInterestRate = interestRate / 12 / 100; // Convert percentage to decimal and to monthly
-        totalNumberOfPayments = repaymentPeriod * 12;
-
-        // Monthly payment calculation using the loan payment formula
-        monthlyPayment = (loanAmount * monthlyInterestRate
-                * Math.pow((1 + monthlyInterestRate), totalNumberOfPayments))
-                / (Math.pow((1 + monthlyInterestRate), totalNumberOfPayments) - 1);
-
-        // Calculate total loan payment
-        totalLoanPayment = monthlyPayment * totalNumberOfPayments;
-        return totalLoanPayment;
-    }
-
     public static void main(String[] args) {
         double income, totalLoanPayment;
         int creditScore, repaymentPeriod, loanAmount, interestRate;
@@ -64,9 +46,11 @@ public class Main {
             interestRate += 1;
         }
 
+        if (existingDebt) { interestRate += 2; }
+
         totalLoanPayment = calculateTotalLoanPayments(loanAmount, interestRate, repaymentPeriod);
 
-        if (income < 2000 || creditScore < 600 || employment == false) {
+        if (income < 2000 || creditScore < 600 || !employment) {
             System.out.print("\nRejected");
         } else {
             System.out.println("Approved \n Your Total payment will be: " + totalLoanPayment);
@@ -93,7 +77,16 @@ public class Main {
         }
     }
 
-    public static boolean empVali(int input) {
-        return input == 1;
+    public static boolean empVali(int input) { return input == 1; }
+
+    public static double calculateTotalLoanPayments(double loanAmount, double interestRate, int repaymentPeriod) {
+        double monthlyInterestRate, totalNumberOfPayments, monthlyPayment, totalLoanPayment;
+        monthlyInterestRate = interestRate / 12 / 100;
+        totalNumberOfPayments = repaymentPeriod * 12;
+
+        monthlyPayment = (loanAmount * monthlyInterestRate * Math.pow((1 + monthlyInterestRate), totalNumberOfPayments)) / (Math.pow((1 + monthlyInterestRate), totalNumberOfPayments) - 1);
+
+        totalLoanPayment = monthlyPayment * totalNumberOfPayments;
+        return totalLoanPayment;
     }
 }
