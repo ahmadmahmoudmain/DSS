@@ -2,8 +2,8 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        double income, totalLoanPayment;
-        int creditScore, repaymentPeriod, loanAmount, interestRate;
+        double income, totalLoanPayment, interestRate;
+        int creditScore, repaymentPeriod, loanAmount;
         boolean existingDebt, employment;
         String loanType;
 
@@ -13,16 +13,16 @@ public class Main {
         loanAmount = input.nextInt();
 
         System.out.print("Enter your credit score: ");
-        creditScore = scoreVali(input.nextInt());
+        creditScore = scoreValidation(input.nextInt());
 
         System.out.print("Do you have any existing loan? (1 - Yes | 2 - No) ");
-        existingDebt = existingVali(input.nextInt());
+        existingDebt = existingValidation(input.nextInt());
 
         System.out.print("Enter the loan type (1 - Mortgage | 2 - Personal): ");
-        loanType = typeVali(input.nextInt());
+        loanType = typeValidation(input.nextInt());
 
         System.out.print("Are you employed? (1 - Yes | 2 - No) ");
-        employment = empVali(input.nextInt());
+        employment = empValidation(input.nextInt());
 
         System.out.print("Enter your monthly income: ");
         income = input.nextInt();
@@ -34,54 +34,54 @@ public class Main {
 
         if (creditScore <= 600) {
             interestRate = 10;
-        }
-        else if (creditScore <= 700) {
+        } else if (creditScore <= 700) {
             interestRate = 7;
-        }
-        else {
+        } else {
             interestRate = 4;
         }
 
         if (loanType.equals("Mortgage")) {
             interestRate -= 1;
-        }
-        else {
+        } else {
             interestRate += 1;
         }
 
-        totalLoanPayment = (1 + loanAmount / (repaymentPeriod * 12)) * interestRate;
+        if (existingDebt) {
+            interestRate += 2;
+        }
 
-        if (income < 2000 || creditScore < 600 || employment == false) {
-            System.out.print("\nRejected");
-        }
-        else {
-            System.out.println("Approved \n Your Total payment will be: " + totalLoanPayment);
-        }
+        interestRate = (interestRate / 100);
+        totalLoanPayment = (1 + loanAmount * interestRate) * repaymentPeriod;
+
+        output(employment, existingDebt, creditScore, totalLoanPayment);
     }
 
-    public static int scoreVali (int score) {
-        if (score <= 1000) {
-            return score;
-        }
-        else {
-            return 0;
-        }
+    public static int scoreValidation(int score) {
+        return score <= 1000 ? score : 0;
     }
 
-    public static boolean existingVali (int input) {
+    public static boolean existingValidation(int input) {
         return input == 1;
     }
 
-    public static String typeVali (int input) {
-        if (input == 1) {
-            return "Mortgage";
-        }
-        else {
-            return "Personal";
-        }
+    public static String typeValidation(int input) {
+        return input == 1 ? "Mortgage" : "Personal";
     }
 
-    public static boolean empVali (int input) {
+    public static boolean empValidation(int input) {
         return input == 1;
+    }
+
+    public static void output(boolean employment, boolean existingDept, int creditScore, double total) {
+        if (!employment) {
+            System.out.println("Rejected due to unemployment");
+        } else if (existingDept) {
+            System.out.println("Rejected due to existing dept");
+        } else if (creditScore < 600) {
+            System.out.println("Rejected due to low credit score");
+        } else {
+            System.out.println("Approved");
+            System.out.print("Total loan payment: " + total);
+        }
     }
 }
