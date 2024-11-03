@@ -57,11 +57,7 @@ public class Main {
     }
 
     public static int scoreValidation(int score) {
-        if (score <= 1000) {
-            return score;
-        } else {
-            return 0;
-        }
+        return score <= 1000 ? score : 0;
     }
 
     public static boolean existingValidation(int input) {
@@ -69,11 +65,7 @@ public class Main {
     }
 
     public static String typeValidation(int input) {
-        if (input == 1) {
-            return "Mortgage";
-        } else {
-            return "Personal";
-        }
+        return input == 1 ? "Mortgage" : "Personal";
     }
 
     public static boolean empValidation(int input) {
