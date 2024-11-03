@@ -2,8 +2,9 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        double income, totalLoanPayment, interestRate;
-        int creditScore, repaymentPeriod, loanAmount;
+        double totalLoanPayment, interestRate, deptToIncome;
+        double maxDTI = 0.4;
+        int income, creditScore, repaymentPeriod, loanAmount;
         boolean existingDebt, employment;
         String loanType;
 
@@ -51,9 +52,20 @@ public class Main {
         }
 
         interestRate = (interestRate / 100);
-        totalLoanPayment = (1 + loanAmount * interestRate) * repaymentPeriod;
 
-        output(employment, existingDebt, creditScore, totalLoanPayment);
+        totalLoanPayment = ((double) loanAmount / (repaymentPeriod * 12)) * (1 + interestRate);
+        deptToIncome = totalLoanPayment / income;
+
+        if (!employment) {
+            System.out.println("Rejected due to unemployment");
+        } else if (creditScore < 600) {
+            System.out.println("Rejected due to low credit score");
+        } else if (maxDTI < deptToIncome)
+            System.out.println("Rejected: Your monthly payment would be too high (40+% of your income)");
+        else {
+            System.out.println("\nApproved");
+            System.out.print("Monthly loan payment: " + (int) totalLoanPayment);
+        }
     }
 
     public static int scoreValidation(int score) {
@@ -70,18 +82,5 @@ public class Main {
 
     public static boolean empValidation(int input) {
         return input == 1;
-    }
-
-    public static void output(boolean employment, boolean existingDept, int creditScore, double total) {
-        if (!employment) {
-            System.out.println("Rejected due to unemployment");
-        } else if (existingDept) {
-            System.out.println("Rejected due to existing dept");
-        } else if (creditScore < 600) {
-            System.out.println("Rejected due to low credit score");
-        } else {
-            System.out.println("Approved");
-            System.out.print("Total loan payment: " + total);
-        }
     }
 }
