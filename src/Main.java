@@ -46,16 +46,14 @@ public class Main {
             interestRate += 1;
         }
 
-        if (existingDebt) { interestRate += 2; }
+        if (existingDebt) {
+            interestRate += 2;
+        }
 
         interestRate = (interestRate / 100);
         totalLoanPayment = (1 + loanAmount * interestRate) * repaymentPeriod;
 
-        if (income < 2000 || creditScore < 600 || !employment) {
-            System.out.print("\nRejected");
-        } else {
-            System.out.println("Approved \n Your Total payment will be: " + totalLoanPayment);
-        }
+        output(employment, existingDebt, creditScore, totalLoanPayment);
     }
 
     public static int scoreValidation(int score) {
@@ -66,7 +64,9 @@ public class Main {
         }
     }
 
-    public static boolean existingValidation(int input) { return input == 1; }
+    public static boolean existingValidation(int input) {
+        return input == 1;
+    }
 
     public static String typeValidation(int input) {
         if (input == 1) {
@@ -76,5 +76,20 @@ public class Main {
         }
     }
 
-    public static boolean empValidation(int input) { return input == 1; }
+    public static boolean empValidation(int input) {
+        return input == 1;
+    }
+
+    public static void output(boolean employment, boolean existingDept, int creditScore, double total) {
+        if (!employment) {
+            System.out.println("Rejected due to unemployment");
+        } else if (existingDept) {
+            System.out.println("Rejected due to existing dept");
+        } else if (creditScore < 600) {
+            System.out.println("Rejected due to low credit score");
+        } else {
+            System.out.println("Approved");
+            System.out.print("Total loan payment: " + total);
+        }
+    }
 }
