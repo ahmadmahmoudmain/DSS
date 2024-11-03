@@ -2,8 +2,8 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        double income, totalLoanPayment;
-        int creditScore, repaymentPeriod, loanAmount, interestRate;
+        double income, totalLoanPayment, interestRate;
+        int creditScore, repaymentPeriod, loanAmount;
         boolean existingDebt, employment;
         String loanType;
 
@@ -48,7 +48,8 @@ public class Main {
 
         if (existingDebt) { interestRate += 2; }
 
-        totalLoanPayment = calculateTotalLoanPayments(loanAmount, interestRate, repaymentPeriod);
+        interestRate = (interestRate / 100);
+        totalLoanPayment = (1 + loanAmount * interestRate) * repaymentPeriod;
 
         if (income < 2000 || creditScore < 600 || !employment) {
             System.out.print("\nRejected");
@@ -65,9 +66,7 @@ public class Main {
         }
     }
 
-    public static boolean existingValidation(int input) {
-        return input == 1;
-    }
+    public static boolean existingValidation(int input) { return input == 1; }
 
     public static String typeValidation(int input) {
         if (input == 1) {
@@ -78,9 +77,4 @@ public class Main {
     }
 
     public static boolean empValidation(int input) { return input == 1; }
-
-    public static double calculateTotalLoanPayments(double loanAmount, double interestRate, int repaymentPeriod) {
-        interestRate = (interestRate / 100);
-        return (1 + loanAmount * interestRate) * repaymentPeriod;
-    }
 }
