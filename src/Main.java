@@ -13,16 +13,16 @@ public class Main {
         loanAmount = input.nextInt();
 
         System.out.print("Enter your credit score: ");
-        creditScore = scoreVali(input.nextInt());
+        creditScore = scoreValidation(input.nextInt());
 
         System.out.print("Do you have any existing loan? (1 - Yes | 2 - No) ");
-        existingDebt = existingVali(input.nextInt());
+        existingDebt = existingValidation(input.nextInt());
 
         System.out.print("Enter the loan type (1 - Mortgage | 2 - Personal): ");
-        loanType = typeVali(input.nextInt());
+        loanType = typeValidation(input.nextInt());
 
         System.out.print("Are you employed? (1 - Yes | 2 - No) ");
-        employment = empVali(input.nextInt());
+        employment = empValidation(input.nextInt());
 
         System.out.print("Enter your monthly income: ");
         income = input.nextInt();
@@ -57,7 +57,7 @@ public class Main {
         }
     }
 
-    public static int scoreVali(int score) {
+    public static int scoreValidation(int score) {
         if (score <= 1000) {
             return score;
         } else {
@@ -65,11 +65,11 @@ public class Main {
         }
     }
 
-    public static boolean existingVali(int input) {
+    public static boolean existingValidation(int input) {
         return input == 1;
     }
 
-    public static String typeVali(int input) {
+    public static String typeValidation(int input) {
         if (input == 1) {
             return "Mortgage";
         } else {
@@ -77,16 +77,10 @@ public class Main {
         }
     }
 
-    public static boolean empVali(int input) { return input == 1; }
+    public static boolean empValidation(int input) { return input == 1; }
 
     public static double calculateTotalLoanPayments(double loanAmount, double interestRate, int repaymentPeriod) {
-        double monthlyInterestRate, totalNumberOfPayments, monthlyPayment, totalLoanPayment;
-        monthlyInterestRate = interestRate / 12 / 100;
-        totalNumberOfPayments = repaymentPeriod * 12;
-
-        monthlyPayment = (loanAmount * monthlyInterestRate * Math.pow((1 + monthlyInterestRate), totalNumberOfPayments)) / (Math.pow((1 + monthlyInterestRate), totalNumberOfPayments) - 1);
-
-        totalLoanPayment = monthlyPayment * totalNumberOfPayments;
-        return totalLoanPayment;
+        interestRate = (interestRate / 100);
+        return (1 + loanAmount * interestRate) * repaymentPeriod;
     }
 }
