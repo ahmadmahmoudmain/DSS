@@ -1,86 +1,122 @@
-import java.util.Scanner;
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
 
 public class Main {
     public static void main(String[] args) {
-        double totalLoanPayment, interestRate, deptToIncome;
-        double maxDTI = 0.4;
-        int income, creditScore, repaymentPeriod, loanAmount, existingDebt;
-        boolean employment;
-        String loanType;
+        JFrame frame = new JFrame("Loan System");
+        // Declare gui labels variables
+        JLabel creditScoreL, loanAmountL, existingDebtL, loanTypeL, employmentStatusL, monthlyIncomeL,
+                repaymentPeriodL;
+        // Declare text fields
+        JTextField creditScoreTF, loanAmountTF, existingDebtTF, loanTypeTF, employmentStatusTF, monthlyIncomeTF,
+                repaymentPeriodTF;
+        JButton checkEligability = new JButton("Check Eligibility");
 
-        Scanner input = new Scanner(System.in);
+        // Initialize components variables
+        creditScoreL = new JLabel("Credit Score: ");
+        loanAmountL = new JLabel("Loan Amount: ");
+        existingDebtL = new JLabel("Existing Debt: ");
+        loanTypeL = new JLabel("Loan Type [mortgage - personal]: ");
+        employmentStatusL = new JLabel("Employment Status [employed - unemployed]: ");
+        monthlyIncomeL = new JLabel("Monthly Income: ");
+        repaymentPeriodL = new JLabel("Repayment Period in years: ");
+        creditScoreTF = new JTextField();
+        loanAmountTF = new JTextField();
+        existingDebtTF = new JTextField();
+        loanTypeTF = new JTextField();
+        employmentStatusTF = new JTextField();
+        monthlyIncomeTF = new JTextField();
+        repaymentPeriodTF = new JTextField();
 
-        System.out.print("Enter the desired loan amount: ");
-        loanAmount = input.nextInt();
+        // Set the main frame layout to BorderLayout
+        frame.setLayout(new BorderLayout());
 
-        System.out.print("Enter your credit score: ");
-        creditScore = scoreValidation(input.nextInt());
+        // Create a form panel with GridLayout for labels and text fields
+        JPanel formPanel = new JPanel(new GridLayout(10, 10, 10, 5)); // 6 rows, 2 columns, with spacing
 
-        System.out.print("Enter any existing debt: ");
-        existingDebt = existingValidation(input.nextInt());
+        // Add labels and text fields to the form panel
+        formPanel.add(creditScoreL);
+        formPanel.add(creditScoreTF);
+        formPanel.add(loanAmountL);
+        formPanel.add(loanAmountTF);
+        formPanel.add(existingDebtL);
+        formPanel.add(existingDebtTF);
+        formPanel.add(loanTypeL);
+        formPanel.add(loanTypeTF);
+        formPanel.add(employmentStatusL);
+        formPanel.add(employmentStatusTF);
+        formPanel.add(monthlyIncomeL);
+        formPanel.add(monthlyIncomeTF);
+        formPanel.add(repaymentPeriodL);
+        formPanel.add(repaymentPeriodTF);
 
-        System.out.print("Enter the loan type (1 - Mortgage | 2 - Personal): ");
-        loanType = typeValidation(input.nextInt());
+        // Add the form panel to the center of the frame
+        frame.add(formPanel, BorderLayout.CENTER);
 
-        System.out.print("Are you employed? (1 - Yes | 2 - No) ");
-        employment = empValidation(input.nextInt());
+        // Create a panel for the button and add the button to it
+        JPanel buttonPanel = new JPanel(); // Default FlowLayout centers the button
+        buttonPanel.add(checkEligability);
 
-        System.out.print("Enter your monthly income: ");
-        income = input.nextInt();
+        // Add the button panel to the bottom (SOUTH) of the frame
+        frame.add(buttonPanel, BorderLayout.SOUTH);
 
-        System.out.print("Enter the loan repayment period in years: ");
-        repaymentPeriod = input.nextInt();
+        checkEligability.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                double totalLoanPayment, interestRate, deptToIncome;
+                double maxDTI = 0.4;
+                int income, creditScore, repaymentPeriod, loanAmount, existingDebt;
+                String loanType, employment, decision;
 
-        input.close();
+                // Store values entered to text fields into variables
+                creditScore = Integer.parseInt(creditScoreTF.getText());
+                loanAmount = Integer.parseInt(loanAmountTF.getText());
+                existingDebt = Integer.parseInt(existingDebtTF.getText());
+                loanType = loanTypeTF.getText();
+                employment = employmentStatusTF.getText();
+                income = Integer.parseInt(monthlyIncomeTF.getText());
+                repaymentPeriod = Integer.parseInt(repaymentPeriodTF.getText());
 
-        if (creditScore <= 600) {
-            interestRate = 10;
-        } else if (creditScore <= 700) {
-            interestRate = 7;
-        } else {
-            interestRate = 4;
-        }
+                if (creditScore <= 600) {
+                    interestRate = 10;
+                } else if (creditScore <= 700) {
+                    interestRate = 7;
+                } else {
+                    interestRate = 4;
+                }
 
-        if (loanType.equals("Mortgage")) {
-            interestRate -= 1;
-        } else {
-            interestRate += 1;
-        }
+                if (loanType.equals("Mortgage")) {
+                    interestRate -= 1;
+                } else {
+                    interestRate += 1;
+                }
 
-        if (existingDebt > 0) {
-            interestRate += 2;
-        }
+                if (existingDebt > 0) {
+                    interestRate += 2;
+                }
 
-        interestRate = (interestRate / 100);
+                interestRate = (interestRate / 100);
 
-        totalLoanPayment = ((double) loanAmount / (repaymentPeriod * 12)) * (1 + interestRate);
-        deptToIncome = (totalLoanPayment + existingDebt) / income;
+                totalLoanPayment = ((double) loanAmount / (repaymentPeriod * 12)) * (1 +
+                        interestRate);
+                deptToIncome = (totalLoanPayment + existingDebt) / income;
 
-        if (!employment) {
-            System.out.println("Rejected due to unemployment");
-        } else if (creditScore < 600) {
-            System.out.println("Rejected due to low credit score");
-        } else if (maxDTI < deptToIncome)
-            System.out.println("Rejected: Your monthly payment would be too high (40+% of your income)");
-        else {
-            System.out.println("\nApproved");
-            System.out.print("Monthly loan payment: " + (int) totalLoanPayment);
-        }
-    }
+                if (employment.equalsIgnoreCase("unmployed")) {
+                    decision = "Rejected due to unemployment";
+                } else if (creditScore < 600) {
+                    decision = "Rejected due to low credit score";
+                } else if (maxDTI < deptToIncome) {
+                    decision = "Rejected: Your monthly payment would be too high (40+% of your income)";
+                } else {
+                    decision = "Approved\nMonthly loan payment: " + (int) totalLoanPayment;
+                }
+                JOptionPane.showMessageDialog(frame, decision);
+            }
+        });
 
-    public static int scoreValidation(int score) {
-        return score <= 1000 ? score : 0;
-    }
-
-    public static int existingValidation(int input) {
-        return input > 0 ? input : 0;
-    }
-
-    public static String typeValidation(int input) {
-        return input == 1 ? "Mortgage" : "Personal";
-    }
-
-    public static boolean empValidation(int input) {
-        return input == 1;
+        frame.setSize(700, 500);
+        frame.setVisible(true);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 }
