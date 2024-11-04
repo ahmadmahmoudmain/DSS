@@ -86,7 +86,7 @@ public class Main {
                     interestRate = 4;
                 }
 
-                if (loanType.equals("Mortgage")) {
+                if (loanType.equalsIgnoreCase("mortgage")) {
                     interestRate -= 1;
                 } else {
                     interestRate += 1;
@@ -102,7 +102,7 @@ public class Main {
                         interestRate);
                 deptToIncome = (totalLoanPayment + existingDebt) / income;
 
-                if (employment.equalsIgnoreCase("unmployed")) {
+                if (employment.equalsIgnoreCase("unemployed")) {
                     decision = "Rejected due to unemployment";
                 } else if (creditScore < 600) {
                     decision = "Rejected due to low credit score";
