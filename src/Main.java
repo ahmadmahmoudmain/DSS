@@ -4,8 +4,8 @@ public class Main {
     public static void main(String[] args) {
         double totalLoanPayment, interestRate, deptToIncome;
         double maxDTI = 0.4;
-        int income, creditScore, repaymentPeriod, loanAmount;
-        boolean existingDebt, employment;
+        int income, creditScore, repaymentPeriod, loanAmount, existingDebt;
+        boolean employment;
         String loanType;
 
         Scanner input = new Scanner(System.in);
@@ -16,7 +16,7 @@ public class Main {
         System.out.print("Enter your credit score: ");
         creditScore = scoreValidation(input.nextInt());
 
-        System.out.print("Do you have any existing loan? (1 - Yes | 2 - No) ");
+        System.out.print("Enter any existing debt: ");
         existingDebt = existingValidation(input.nextInt());
 
         System.out.print("Enter the loan type (1 - Mortgage | 2 - Personal): ");
@@ -47,14 +47,14 @@ public class Main {
             interestRate += 1;
         }
 
-        if (existingDebt) {
+        if (existingDebt > 0) {
             interestRate += 2;
         }
 
         interestRate = (interestRate / 100);
 
         totalLoanPayment = ((double) loanAmount / (repaymentPeriod * 12)) * (1 + interestRate);
-        deptToIncome = totalLoanPayment / income;
+        deptToIncome = (totalLoanPayment + existingDebt) / income;
 
         if (!employment) {
             System.out.println("Rejected due to unemployment");
@@ -72,8 +72,8 @@ public class Main {
         return score <= 1000 ? score : 0;
     }
 
-    public static boolean existingValidation(int input) {
-        return input == 1;
+    public static int existingValidation(int input) {
+        return input > 0 ? input : 0;
     }
 
     public static String typeValidation(int input) {
