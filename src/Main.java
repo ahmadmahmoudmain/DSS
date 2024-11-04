@@ -60,9 +60,9 @@ public class Main {
             System.out.println("Rejected due to unemployment");
         } else if (creditScore < 600) {
             System.out.println("Rejected due to low credit score");
-        } else if (maxDTI < deptToIncome)
+        } else if (maxDTI < deptToIncome) {
             System.out.println("Rejected: Your monthly payment would be too high (40+% of your income)");
-        else {
+        } else {
             System.out.println("\nApproved");
             System.out.print("Monthly loan payment: " + (int) totalLoanPayment);
         }
