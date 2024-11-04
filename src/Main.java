@@ -33,7 +33,7 @@ public class Main {
         frame.setLayout(new BorderLayout());
 
         // Create a form panel with GridLayout for labels and text fields
-        JPanel formPanel = new JPanel(new GridLayout(10, 10, 10, 5)); // 6 rows, 2 columns, with spacing
+        JPanel formPanel = new JPanel(new GridLayout(10, 10, 10, 10)); // 6 rows, 2 columns, with spacing
 
         // Add labels and text fields to the form panel
         formPanel.add(creditScoreL);
@@ -68,15 +68,42 @@ public class Main {
                 double maxDTI = 0.4;
                 int income, creditScore, repaymentPeriod, loanAmount, existingDebt;
                 String loanType, employment, decision;
+                boolean validInput = true;
 
+                creditScore = loanAmount = existingDebt = income = repaymentPeriod = 0;
+                loanType = employment = "";
                 // Store values entered to text fields into variables
-                creditScore = Integer.parseInt(creditScoreTF.getText());
-                loanAmount = Integer.parseInt(loanAmountTF.getText());
-                existingDebt = Integer.parseInt(existingDebtTF.getText());
-                loanType = loanTypeTF.getText();
-                employment = employmentStatusTF.getText();
-                income = Integer.parseInt(monthlyIncomeTF.getText());
-                repaymentPeriod = Integer.parseInt(repaymentPeriodTF.getText());
+                try {
+                    creditScore = Integer.parseInt(creditScoreTF.getText());
+                    loanAmount = Integer.parseInt(loanAmountTF.getText());
+                    existingDebt = Integer.parseInt(existingDebtTF.getText());
+                    income = Integer.parseInt(monthlyIncomeTF.getText());
+                    repaymentPeriod = Integer.parseInt(repaymentPeriodTF.getText());
+                    loanType = loanTypeTF.getText();
+                    employment = employmentStatusTF.getText();
+
+                    if (loanType == null || loanType.trim().isEmpty()) {
+                        throw new IllegalArgumentException("Loan type cannot be empty or only whitespace.");
+                    }
+                    if (employment == null || employment.trim().isEmpty()) {
+                        throw new IllegalArgumentException("Employment status cannot be empty or only whitespace.");
+                    }
+
+                    if (loanType.matches(".*\\d.*")) { // Matches if the input contains any digit
+                        throw new IllegalArgumentException(
+                                "Loan type cannot contain any numbers. Please enter valid text.");
+                    }
+                    if (employment.matches(".*\\d.*")) { // Matches if the input contains any digit
+                        throw new IllegalArgumentException(
+                                "Employment status cannot contain any numbers. Please enter valid text.");
+                    }
+                } catch (NumberFormatException E) {
+                    JOptionPane.showMessageDialog(frame, "Invalid input. Please enter valid integers.");
+                    validInput = false;
+                } catch (IllegalArgumentException o) {
+                    JOptionPane.showMessageDialog(frame, o.getMessage());
+                    validInput = false;
+                }
 
                 if (creditScore <= 600) {
                     interestRate = 10;
@@ -111,7 +138,9 @@ public class Main {
                 } else {
                     decision = "Approved\nMonthly loan payment: " + (int) totalLoanPayment;
                 }
-                JOptionPane.showMessageDialog(frame, decision);
+                if (validInput) {
+                    JOptionPane.showMessageDialog(frame, decision);
+                }
             }
         });
 
