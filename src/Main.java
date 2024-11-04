@@ -17,7 +17,7 @@ public class Main {
         creditScore = scoreValidation(input.nextInt());
 
         System.out.print("Enter any existing debt: ");
-        existingDebt = existingValidation(input.nextInt());
+        existingDebt = input.nextInt();
 
         System.out.print("Enter the loan type (1 - Mortgage | 2 - Personal): ");
         loanType = typeValidation(input.nextInt());
@@ -70,10 +70,6 @@ public class Main {
 
     public static int scoreValidation(int score) {
         return score <= 1000 ? score : 0;
-    }
-
-    public static int existingValidation(int input) {
-        return input > 0 ? input : 0;
     }
 
     public static String typeValidation(int input) {
