@@ -69,14 +69,24 @@ public class Main {
     }
 
     public static int scoreValidation(int score) {
-        return score <= 1000 ? score : 0;
+        if (score <= 1000)
+            return score;
+        else
+            return score = 0;
     }
 
     public static String typeValidation(int input) {
-        return input == 1 ? "Mortgage" : "Personal";
+        if (input == 1)
+            return "Mortgage";
+        else
+            return "Personal";
     }
 
     public static boolean empValidation(int input) {
-        return input == 1;
+        if (input == 1)
+            return true;
+        else
+            return false;
+
     }
 }
