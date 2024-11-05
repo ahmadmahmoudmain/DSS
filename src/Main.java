@@ -4,14 +4,15 @@ import javax.swing.*;
 
 public class Main {
     public static void main(String[] args) {
-        JFrame frame = new JFrame("Loan System");
-        // Declare gui labels variables
+        JFrame frame = new JFrame("Loan Approval System");
+        // Declare gui labels
         JLabel creditScoreL, loanAmountL, existingDebtL, loanTypeL, employmentStatusL, monthlyIncomeL,
                 repaymentPeriodL;
         // Declare text fields
         JTextField creditScoreTF, loanAmountTF, existingDebtTF, loanTypeTF, employmentStatusTF, monthlyIncomeTF,
                 repaymentPeriodTF;
-        JButton checkEligability = new JButton("Check Eligibility");
+        // Declare check eligibility button
+        JButton checkEligability;
 
         // Initialize components variables
         creditScoreL = new JLabel("Credit Score: ");
@@ -28,12 +29,10 @@ public class Main {
         employmentStatusTF = new JTextField();
         monthlyIncomeTF = new JTextField();
         repaymentPeriodTF = new JTextField();
-
-        // Set the main frame layout to BorderLayout
-        frame.setLayout(new BorderLayout());
+        checkEligability = new JButton("Check Eligibility");
 
         // Create a form panel with GridLayout for labels and text fields
-        JPanel formPanel = new JPanel(new GridLayout(10, 10, 10, 10)); // 6 rows, 2 columns, with spacing
+        JPanel formPanel = new JPanel(new GridLayout(8, 10, 10, 10)); // 8 rows, 10 columns, with v and h gaps
 
         // Add labels and text fields to the form panel
         formPanel.add(creditScoreL);
@@ -54,8 +53,9 @@ public class Main {
         // Add the form panel to the center of the frame
         frame.add(formPanel, BorderLayout.CENTER);
 
-        // Create a panel for the button and add the button to it
+        // Create a panel for the button
         JPanel buttonPanel = new JPanel(); // Default FlowLayout centers the button
+        // Add the button to it's panel
         buttonPanel.add(checkEligability);
 
         // Add the button panel to the bottom (SOUTH) of the frame
@@ -70,9 +70,11 @@ public class Main {
                 String loanType, employment, decision;
                 boolean validInput = true;
 
+                // Assign initial values
                 creditScore = loanAmount = existingDebt = income = repaymentPeriod = 0;
                 loanType = employment = "";
-                // Store values entered to text fields into variables
+
+                // Store values entered to text fields into variables after parsing it
                 try {
                     creditScore = Integer.parseInt(creditScoreTF.getText());
                     loanAmount = Integer.parseInt(loanAmountTF.getText());
@@ -144,7 +146,7 @@ public class Main {
             }
         });
 
-        frame.setSize(700, 500);
+        frame.setSize(700, 400);
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
